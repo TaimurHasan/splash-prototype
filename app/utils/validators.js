@@ -6,3 +6,13 @@ export const emailValidator = (email) => {
 export const pwValidator = (pw) => {
   return pw.length >= 6;
 };
+
+export const validateAll = (form) => {
+  const inputFields = [
+    emailValidator(form?.email),
+    pwValidator(form?.password),
+    // !!form?.username,
+  ];
+
+  return !inputFields.includes(false);
+}

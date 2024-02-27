@@ -4,18 +4,19 @@ import React from 'react'
 import { Stack } from 'expo-router'
 
 const client = new ApolloClient({
-  uri: 'http://192.168.0.188:8000/graphql',
+  uri: 'http://localhost:8000/graphql',
   cache: new InMemoryCache()
 });
 
 const _layout = () => {
   return (
     <ApolloProvider client={client}>
-      <Stack
-          screenOptions={{
+      <Stack screenOptions={{
               headerShown: false,
           }}
-      />
+      >
+        <Stack.Screen name="(screens)" />
+      </Stack>
     </ApolloProvider>
   )
 }
