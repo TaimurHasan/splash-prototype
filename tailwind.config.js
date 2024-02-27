@@ -5,7 +5,8 @@ module.exports = {
     extend: {
       colors: {
         'splash-gray': '#1c1c1e',
-        'splash-text-green': '#67ffb6'
+        'splash-text-green': '#87E4B7',
+        'splash-button-green': '#67FFB6',
       },
     },
   },
