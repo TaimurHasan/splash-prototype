@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "@expo-google-fonts/catamaran": "^0.2.3",
+    "@react-native-async-storage/async-storage": "^1.22.3",
     "apollo-server-express": "^3.13.0",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",

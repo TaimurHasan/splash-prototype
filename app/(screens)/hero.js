@@ -1,7 +1,7 @@
 import { ApolloProvider, ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { StyleSheet, View, Image } from 'react-native'
-import React from 'react'
+import React, { useContext } from 'react'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { StatusBar } from 'expo-status-bar';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -11,29 +11,12 @@ import { useRouter } from 'expo-router';
 import AppText from '../components/AppText';
 import * as SecureStore from 'expo-secure-store';
 import { AppRegistry } from 'react-native-web';
-
-// const httpLink = createHttpLink({
-//   uri: '/graphql',
-// });
-
-// const authLink = setContext((_, { headers }) => {
-//   const token = SecureStore.getItemAsync('id_token');
-//   return {
-//     headers: {
-//       ...headers,
-//       authorization: token ? `Bearer ${token}` : '',
-//     },
-//   };
-// });
-
-const client = new ApolloClient({
-  uri: 'http://localhost:8000/graphql',
-  cache: new InMemoryCache()
-});
+import { AuthContext } from '../context/AuthContext';
 
 const hero = () => {
   const router = useRouter();
-
+  const { isLoading } = useContext(AuthContext);
+  console.log(isLoading);
   return (
     // <ApolloProvider client={client}>
     <View className="flex-1 flex justify-end">
@@ -59,6 +42,7 @@ const hero = () => {
           <TouchableOpacity
             style={{height: hp(6), width: wp(80), borderRadius: '5px'}}
             className="bg-white flex items-center justify-center mx-auto mb-2 drop-shadow border-none"
+            onPress={() => router.push('login')}
           >
             <AppText 
               class="text-black font-semibold text-base"

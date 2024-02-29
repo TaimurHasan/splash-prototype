@@ -1,23 +1,25 @@
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { StatusBar } from 'expo-status-bar'
-import { useRouter } from 'expo-router'
+import { Redirect, useRouter } from 'expo-router'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import BackButton from '../../assets/icons/back.svg';
 import AppText from '../components/AppText'
 import CustomTextInput from '../components/CustomTextInput'
 import { emailValidator, pwValidator, validateAll } from '../utils/validators'
 import { useMutation } from '@apollo/client';
-import { ADD_USER } from '../utils/mutations';
+import { LOGIN_USER } from '../utils/mutations';
 import Auth from '../utils/auth';
+import { AuthContext } from '../context/AuthContext'
 
-const signup = () => {
+const login = () => {
     const router = useRouter();
+    const { login } = useContext(AuthContext);
     const insets = useSafeAreaInsets();
-    const [formState, setFormState] = useState({ email: '', password: '', username: ''});
+    const [formState, setFormState] = useState({ email: '', password: '' });
     const [formStateError, setFormStateError] = useState(false);
-    const [addUser, { error }] = useMutation(ADD_USER);
+    const [loginUser, { error }] = useMutation(LOGIN_USER);
 
     useEffect(() => {
         if(!validateAll(formState)) {
@@ -34,18 +36,9 @@ const signup = () => {
         });
     }
 
-    const submitAddUser = async () => {
-        console.log(formState);
-        try {
-            // execute addUser mutation and pass in variable data from form
-            const { data } = await addUser({
-              variables: { ...formState }
-            });
-            
-            Auth.login(data.addUser.token);
-          } catch (e) {
-            console.error(e);
-        }
+    const submitLoginUser = async () => {
+        login(formState);
+        router.push('/');
     }
 
     return (
@@ -71,7 +64,7 @@ const signup = () => {
                 <AppText 
                     class="color-[#87E4B7] text-base"
                 >
-                    Sign Up
+                    Login
                 </AppText>
             </View>
         </View>
@@ -106,23 +99,10 @@ const signup = () => {
                     secureTextEntry={true}
                     validator={pwValidator}
                 />
-                <CustomTextInput 
-                    label={'Username'}
-                    value={formState?.username}
-                    error={false}
-                    labelStyle={{color: 'white'}}
-                    customStyle={{
-                        marginHorizontal: 12,
-                        marginTop: 24,
-                    }}
-                    setValue={(value) => handleForm('username', value)}
-                    placeholder={'username'}
-                    secureTextEntry={false}
-                />
                 <TouchableOpacity
                     style={{height: hp(6), width: wp(94), borderRadius: '5px', marginTop: 32 }}
                     className={`${formStateError ? 'bg-splash-gray' : 'bg-splash-greenbtn'} flex items-center justify-center mx-auto mb-2 drop-shadow border-none`}
-                    onPress={submitAddUser}
+                    onPress={submitLoginUser}
                     disabled={formStateError}
                 >
                     <AppText 
@@ -130,7 +110,7 @@ const signup = () => {
                     customStyle={{ fontWeight: '400' }}
                     bold={true}
                     >
-                        Continue
+                        Login
                     </AppText>
                 </TouchableOpacity>
                 {error &&
@@ -150,6 +130,6 @@ const signup = () => {
     )
 }
 
-export default signup
+export default login
 
 const styles = StyleSheet.create({})
