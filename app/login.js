@@ -4,21 +4,23 @@ import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { StatusBar } from 'expo-status-bar'
 import { Redirect, useRouter } from 'expo-router'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import BackButton from '../../assets/icons/back.svg';
-import AppText from '../components/AppText'
-import CustomTextInput from '../components/CustomTextInput'
-import { emailValidator, pwValidator, validateAll } from '../utils/validators'
+import BackButton from '../assets/icons/back.svg';
+import AppText from './components/AppText'
+import CustomTextInput from './components/CustomTextInput'
+import { emailValidator, pwValidator, validateAll } from './utils/validators'
 import { useMutation } from '@apollo/client';
-import { LOGIN_USER } from '../utils/mutations';
-import Auth from '../utils/auth';
-import { AuthContext } from '../context/AuthContext'
+import { LOGIN_USER } from './utils/mutations';
+import Auth from './utils/auth';
+import { AuthContext } from './context/AuthContext'
+import * as Progress from 'react-native-progress';
+import Header from './components/Header'
 
 const login = () => {
     const router = useRouter();
     const { login } = useContext(AuthContext);
-    const insets = useSafeAreaInsets();
     const [formState, setFormState] = useState({ email: '', password: '' });
     const [formStateError, setFormStateError] = useState(false);
+    const [isLoginLoading, setIsLoginLoading] = useState(false);
     const [loginUser, { error }] = useMutation(LOGIN_USER);
 
     useEffect(() => {
@@ -37,37 +39,23 @@ const login = () => {
     }
 
     const submitLoginUser = async () => {
-        login(formState);
-        router.push('/');
+        setIsLoginLoading(true);
+        try {
+            const { data } = await loginUser({
+              variables: { ...formState }
+            });
+            router.push('/');
+            login(data.login.token);
+        } catch (e) {
+            console.error(e);
+        }
+        setIsLoginLoading(false);
     }
 
     return (
         <>
         <StatusBar translucent={false} barStyle="dark-content" backgroundColor={'white'} style='light' />
-        <View 
-            className="flex-row justify-between items-end bg-splash-gray pb-0"
-            style={{width: wp(100), height: insets.top + hp(5)}}
-        >
-            <TouchableOpacity
-                onPress={() => router.back()}
-                className="pl-6 absolute pb-3"
-                style={{zIndex: 1}}
-            >
-                <View>
-                    <BackButton width={20} height={20} />
-                </View>
-            </TouchableOpacity>
-            <View
-                style={{width: wp(100)}}
-                className="flex justify-center items-center mb-3"
-            >
-                <AppText 
-                    class="color-[#87E4B7] text-base"
-                >
-                    Login
-                </AppText>
-            </View>
-        </View>
+        <Header headerText='Login' />
         <View className="flex-1 bg-black flex p-0">
 
             <ScrollView>
@@ -105,13 +93,16 @@ const login = () => {
                     onPress={submitLoginUser}
                     disabled={formStateError}
                 >
-                    <AppText 
-                    class="text-black font-semibold text-base"
-                    customStyle={{ fontWeight: '400' }}
-                    bold={true}
-                    >
-                        Login
-                    </AppText>
+                    {isLoginLoading ?
+                        <Progress.CircleSnail size={30} color={'black'} /> :
+                        <AppText 
+                            class="text-black font-semibold text-base"
+                            customStyle={{ fontWeight: '400' }}
+                            bold={true}
+                        >
+                            Login
+                        </AppText>
+                    }
                 </TouchableOpacity>
                 {error &&
                     <AppText 
@@ -121,7 +112,7 @@ const login = () => {
                             marginTop: 12,
                         }}
                     >
-                        There was an error signing you up, please review your details and try again.
+                        Incorrect username or password, please review your details and try again.
                     </AppText>
                 }
             </ScrollView>

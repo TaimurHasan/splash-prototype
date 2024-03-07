@@ -1,9 +1,8 @@
 const express = require('express');
 require('dotenv').config();
 const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
 const { authMiddleware } = require('./utils/auth');
-
+const socketio = require('socket.io');
 const { ApolloServer } = require('apollo-server-express');
 const { typeDefs, resolvers } = require('./schemas');
 
@@ -26,9 +25,21 @@ const startApolloServer = async (typeDefs, resolvers) => {
     await server.start();
     server.applyMiddleware({ app });
     db.once('open', () => {
-        app.listen(port, () => {
+        // const sessionChangeStream = db.collection("sessions").watch();
+        const http = app.listen(port, () => {
             console.log(`Server is running on port ${port}`);
         });
+
+        const io = socketio(http);
+        io.on('connection', (client) => {
+            // let counter = 0;
+            client.on('subscribeToTimer', (interval) => {
+                console.log('client is subscribing to timer with interval ', interval);
+                setInterval(() => {
+                    client.emit('timer', 'ok');
+                }, 1000);
+            });
+        })
     })
 };
 

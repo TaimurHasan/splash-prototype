@@ -8,26 +8,24 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { TouchableOpacity } from 'react-native';
 import Animated, { FadeIn, FadeInDown, FadeOut } from 'react-native-reanimated';
 import { useRouter } from 'expo-router';
-import AppText from '../components/AppText';
+import AppText from './components/AppText';
 import * as SecureStore from 'expo-secure-store';
 import { AppRegistry } from 'react-native-web';
-import { AuthContext } from '../context/AuthContext';
+import { AuthContext } from './context/AuthContext';
 
 const hero = () => {
   const router = useRouter();
-  const { isLoading } = useContext(AuthContext);
-  console.log(isLoading);
   return (
     // <ApolloProvider client={client}>
     <View className="flex-1 flex justify-end">
       <StatusBar style='light' />
-      <Image className="h-full w-full absolute" source={require('../../assets/images/login-background.png')} />
+      <Image className="h-full w-full absolute" source={require('../assets/images/login-background.png')} />
       <Animated.View
         entering={FadeIn}
         style={{width: wp(100), height: hp(20)}}
         className="flex justify-start items-center"
       >
-        <Image source={require('../../assets/images/logo.png')} />
+        <Image source={require('../assets/images/logo.png')} />
       </Animated.View>
       <LinearGradient
         colors={['transparent, #18181b']}
@@ -40,7 +38,7 @@ const hero = () => {
           className="flex items-center"
         >
           <TouchableOpacity
-            style={{height: hp(6), width: wp(80), borderRadius: '5px'}}
+            style={{height: hp(6), width: wp(90), borderRadius: '5px'}}
             className="bg-white flex items-center justify-center mx-auto mb-2 drop-shadow border-none"
             onPress={() => router.push('login')}
           >

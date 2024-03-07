@@ -1,19 +1,21 @@
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { StatusBar } from 'expo-status-bar'
 import { useRouter } from 'expo-router'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import BackButton from '../../assets/icons/back.svg';
-import AppText from '../components/AppText'
-import CustomTextInput from '../components/CustomTextInput'
-import { emailValidator, pwValidator, validateAll } from '../utils/validators'
+import BackButton from '../assets/icons/back.svg';
+import AppText from './components/AppText'
+import CustomTextInput from './components/CustomTextInput'
+import { emailValidator, pwValidator, validateAll } from './utils/validators'
 import { useMutation } from '@apollo/client';
-import { ADD_USER } from '../utils/mutations';
-import Auth from '../utils/auth';
+import { ADD_USER } from './utils/mutations';
+import { AuthContext } from './context/AuthContext'
+import Header from './components/Header'
 
 const signup = () => {
     const router = useRouter();
+    const { login } = useContext(AuthContext);
     const insets = useSafeAreaInsets();
     const [formState, setFormState] = useState({ email: '', password: '', username: ''});
     const [formStateError, setFormStateError] = useState(false);
@@ -35,14 +37,13 @@ const signup = () => {
     }
 
     const submitAddUser = async () => {
-        console.log(formState);
         try {
             // execute addUser mutation and pass in variable data from form
             const { data } = await addUser({
               variables: { ...formState }
             });
-            
-            Auth.login(data.addUser.token);
+            router.push('/');
+            login(data.addUser.token);
           } catch (e) {
             console.error(e);
         }
@@ -51,30 +52,7 @@ const signup = () => {
     return (
         <>
         <StatusBar translucent={false} barStyle="dark-content" backgroundColor={'white'} style='light' />
-        <View 
-            className="flex-row justify-between items-end bg-splash-gray pb-0"
-            style={{width: wp(100), height: insets.top + hp(5)}}
-        >
-            <TouchableOpacity
-                onPress={() => router.back()}
-                className="pl-6 absolute pb-3"
-                style={{zIndex: 1}}
-            >
-                <View>
-                    <BackButton width={20} height={20} />
-                </View>
-            </TouchableOpacity>
-            <View
-                style={{width: wp(100)}}
-                className="flex justify-center items-center mb-3"
-            >
-                <AppText 
-                    class="color-[#87E4B7] text-base"
-                >
-                    Sign Up
-                </AppText>
-            </View>
-        </View>
+        <Header headerText='Sign up' />
         <View className="flex-1 bg-black flex p-0">
 
             <ScrollView>

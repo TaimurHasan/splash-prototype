@@ -66,25 +66,6 @@ export const QUERY_ME = gql`
       _id
       username
       email
-      isAaron
-      friendCount
-      thoughts {
-        _id
-        thoughtText
-        createdAt
-        aaronOnly
-        reactionCount
-        reactions {
-          _id
-          createdAt
-          reactionBody
-          username
-        }
-      }
-      friends {
-        _id
-        username
-      }
     }
   }
 `;
