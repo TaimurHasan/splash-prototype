@@ -6,6 +6,7 @@ import { setContext } from '@apollo/client/link/context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import auth from './utils/auth';
 import { AuthProvider } from './context/AuthContext';
+import { ActiveProvider } from './context/ActiveContext';
 
 const httpLink = createHttpLink({
   uri: 'http://localhost:8000/graphql/graphql',
@@ -29,8 +30,10 @@ const _layout = () => {
   return (
     <ApolloProvider client={client}>
       <AuthProvider>
-        {/* <Stack screenOptions={{ headerShown: false }} /> */}
-        <Slot />
+        <ActiveProvider>
+          {/* <Stack screenOptions={{ headerShown: false }} /> */}
+          <Slot />
+        </ActiveProvider>
       </AuthProvider>
     </ApolloProvider>
   )

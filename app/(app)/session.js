@@ -4,25 +4,24 @@ import AppText from '../components/AppText';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
-import { AuthContext } from '../context/AuthContext';
 import { sessionSchema } from '../../assets/sessionSchema';
 import { socket, subscribeToTimer } from '../utils/api';
 import { StatusBar } from 'expo-status-bar';
 import Header from '../components/Header';
-import { useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { QUERY_ME } from '../utils/queries';
+import { ADD_SESSION, END_SESSION } from '../utils/mutations';
+import { ActiveContext } from '../context/ActiveContext';
 
-const home = () => {
+const session = () => {
     const router = useRouter();
-    const { logout } = useContext(AuthContext);
-    const { data } = useQuery(QUERY_ME);
-    console.log(data);
-    const startTime = (new Date() - new Date(sessionSchema[0].startedAt))/(1000);
-    const [timer, setTimer] = useState(0);
-    const performLogout = () => {
-        logout();
-        router.push('/hero', {disabledAnimation: true});
-    };
+    const { isActive, setActive  } = useContext(ActiveContext);
+    const { data: userData } = useQuery(QUERY_ME);
+    const [ addSession, { error }] = useMutation(ADD_SESSION);
+    const [ endSession, { error: endSessionError }] = useMutation(END_SESSION);
+
+    // const startTime = (new Date() - new Date(sessionSchema[0].startedAt))/(1000);
+    // const [timer, setTimer] = useState(0);
 
     // useEffect(() => {
     //     intervalId = setInterval(() => setTimer(timer + 1), 1000);
@@ -32,17 +31,48 @@ const home = () => {
     //     socket.emit('subscribeToTimer', 1000);
     // }, []);
     
-    useEffect(() => {
-        socket.emit('subscribeToTimer', 1000);
-        const setTimerEvent = (value) => {
-            setTimer(value);
-        };
-        socket.on('timer', setTimerEvent);
-        return () => {
-            socket.off('timer', setTimerEvent);
+    // useEffect(() => {
+    //     socket.emit('subscribeToTimer', 1000);
+    //     const setTimerEvent = (value) => {
+    //         setTimer(value);
+    //     };
+    //     socket.on('timer', setTimerEvent);
+    //     return () => {
+    //         socket.off('timer', setTimerEvent);
+    //     }
+    // }, []);
+    // useEffect(() => {
+    //     const { data } = useQuery(QUERY_ME);
+    //     if(data?.me?.isActive === 'true') {
+    //         setIsActive(true);
+    //     } else {
+    //         setIsActive(false);
+    //     }
+    // }, [])
+    const onStart = async () => {
+        try {
+            const { data } = await addSession({
+                variables: { username: userData?.me?.username }
+            })
+            if(data) {
+                setActive(true);
+            }
+        } catch (e) {
+            console.log(e);
         }
-    }, []);
-
+    };
+    const onEnd = async () => {
+        try {
+            const { data } = await endSession({
+                variables: { username: userData?.me?.username }
+            })
+            if(data) {
+                setActive(false);
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    };
     return (
         <>
             <StatusBar style='light'/>
@@ -51,11 +81,13 @@ const home = () => {
                 <TouchableOpacity
                     style={{height: hp(6), width: wp(90), borderRadius: '5px'}}
                     className="flex bg-splash-greenbtn items-center justify-center mx-auto mb-10"
+                    onPress={isActive ? onEnd : onStart}
                 >
                     <AppText 
-                    class='text-black text-base'
+                        class='text-black text-base'
+                        bold={true}
                     >
-                        {data.me.username === '' ? '' : 'Start Session'}
+                        {isActive === true ? 'End Session' : 'Start Session'}
                     </AppText>
                 </TouchableOpacity>
             </View>
@@ -63,6 +95,6 @@ const home = () => {
     )
 }
 
-export default home
+export default session;
 
 const styles = StyleSheet.create({})

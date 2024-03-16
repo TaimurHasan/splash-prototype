@@ -37,18 +37,18 @@ export const ADD_FRIEND = gql`
     }
 `
 
-export const ADD_THOUGHT = gql`
-  mutation addThought($thoughtText: String!, $aaronOnly: Boolean!) {
-    addThought(thoughtText: $thoughtText, aaronOnly: $aaronOnly) {
+export const ADD_SESSION = gql`
+  mutation addSession($username: String!) {
+    addSession(username: $username) {
       _id
-      thoughtText
-      aaronOnly
-      createdAt
-      username
-      reactionCount
-      reactions {
-        _id
-      }
+    }
+  }
+`;
+
+export const END_SESSION = gql`
+  mutation endSession($username: String!) {
+    endSession(username: $username) {
+      _id
     }
   }
 `;

@@ -1,11 +1,10 @@
-const User = require('../models/User')
+const { ActiveSession, User } = require('../models');
 const { AuthenticationError } = require('apollo-server-express');
 const { signToken } = require('../utils/auth');
 
 const resolvers = {
     Query: {
         me: async (parent, args, context) => {
-            console.log(context.user);
             if(context.user) {
                 const userData = await User.findOne({ _id: context.user._id })
                     .select('-__v -password')
@@ -49,6 +48,28 @@ const resolvers = {
             const token = signToken(user);
             return { token, user };
         },
+        addSession: async(parent, args, context) => {
+            if(context.user) {
+                const user = await User.findByIdAndUpdate(
+                    { _id: context.user._id },
+                    { isActive: true },
+                    { new: true }
+                )
+
+                return user;
+            }
+        },
+        endSession: async(parent, args, context) => {
+            if(context.user) {
+                const user = await User.findByIdAndUpdate(
+                    { _id: context.user._id },
+                    { isActive: false },
+                    { new: true }
+                )
+
+                return user;
+            }
+        }
     }
 };
 

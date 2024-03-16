@@ -20,6 +20,10 @@ const userSchema = new Schema(
             required: true,
             minlength: 6
         },
+        isActive: {
+            type: Boolean,
+            default: false,
+        }
     },
     {
       toJSON: {
