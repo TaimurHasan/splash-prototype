@@ -11,7 +11,8 @@ export const AuthProvider = ({ children }) => {
         setIsLoading(true);
         setUserToken(token);
         await AsyncStorage.setItem('userToken', token);
-        setTimeout(() => setIsLoading(false), 5000);
+        setTimeout(() => setIsLoading(false), 1000);
+        // setIsLoading(false);
     }
 
     const logout = () => {

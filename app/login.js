@@ -1,16 +1,13 @@
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { StatusBar } from 'expo-status-bar'
-import { Redirect, useRouter } from 'expo-router'
+import { useRouter } from 'expo-router'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import BackButton from '../assets/icons/back.svg';
 import AppText from './components/AppText'
 import CustomTextInput from './components/CustomTextInput'
 import { emailValidator, pwValidator, validateAll } from './utils/validators'
 import { useMutation } from '@apollo/client';
 import { LOGIN_USER } from './utils/mutations';
-import Auth from './utils/auth';
 import { AuthContext } from './context/AuthContext'
 import * as Progress from 'react-native-progress';
 import Header from './components/Header'

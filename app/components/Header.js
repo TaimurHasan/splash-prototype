@@ -10,6 +10,7 @@ const Header = (props) => {
     const {
         headerText,
         showBack = true,
+        backRoute,
     } = props;
     const insets = useSafeAreaInsets();
     const router = useRouter();
@@ -20,7 +21,7 @@ const Header = (props) => {
         >
             {showBack &&
                 <TouchableOpacity
-                    onPress={() => router.back()}
+                    onPress={() => backRoute ? router.push(backRoute) : router.back()}
                     className="pl-6 absolute pb-3"
                     style={{zIndex: 1}}
                 >
@@ -35,6 +36,7 @@ const Header = (props) => {
             >
                 <AppText 
                     class="color-[#87E4B7] text-base"
+                    bold={true}
                 >
                     {headerText}
                 </AppText>

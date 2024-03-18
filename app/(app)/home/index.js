@@ -1,10 +1,10 @@
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import React, { useContext } from 'react'
-import AppText from '../components/AppText';
+import AppText from '../../components/AppText';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
-import { AuthContext } from '../context/AuthContext';
+import { AuthContext } from '../../context/AuthContext';
 
 const home = () => {
     const router = useRouter();

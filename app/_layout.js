@@ -4,12 +4,11 @@ import React from 'react'
 import { Slot, Stack } from 'expo-router'
 import { setContext } from '@apollo/client/link/context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import auth from './utils/auth';
-import { AuthProvider } from './context/AuthContext';
-import { ActiveProvider } from './context/ActiveContext';
+import { AppProvider } from './context/AppContext';
+import 'react-native-gesture-handler';
 
 const httpLink = createHttpLink({
-  uri: 'http://localhost:8000/graphql/graphql',
+  uri: 'http://localhost:8000/graphql',
 });
 
 const authLink = setContext(async (_, { headers }) => {
@@ -29,12 +28,10 @@ const client = new ApolloClient({
 const _layout = () => {
   return (
     <ApolloProvider client={client}>
-      <AuthProvider>
-        <ActiveProvider>
+      <AppProvider>
           {/* <Stack screenOptions={{ headerShown: false }} /> */}
           <Slot />
-        </ActiveProvider>
-      </AuthProvider>
+      </AppProvider>
     </ApolloProvider>
   )
 }

@@ -1,7 +1,5 @@
-import { ApolloProvider, ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
-import { setContext } from '@apollo/client/link/context';
 import { StyleSheet, View, Image } from 'react-native'
-import React, { useContext } from 'react'
+import React from 'react'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { StatusBar } from 'expo-status-bar';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -9,14 +7,10 @@ import { TouchableOpacity } from 'react-native';
 import Animated, { FadeIn, FadeInDown, FadeOut } from 'react-native-reanimated';
 import { useRouter } from 'expo-router';
 import AppText from './components/AppText';
-import * as SecureStore from 'expo-secure-store';
-import { AppRegistry } from 'react-native-web';
-import { AuthContext } from './context/AuthContext';
 
 const hero = () => {
   const router = useRouter();
   return (
-    // <ApolloProvider client={client}>
     <View className="flex-1 flex justify-end">
       <StatusBar style='light' />
       <Image className="h-full w-full absolute" source={require('../assets/images/login-background.png')} />
@@ -52,7 +46,7 @@ const hero = () => {
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => router.push('signup')}
-            style={{height: hp(6), width: wp(80), borderRadius: '5px'}}
+            style={{height: 53 , width: 360 , borderRadius: '5px'}}
             className="flex items-center justify-center mx-auto"
           >
             <AppText 
@@ -64,7 +58,6 @@ const hero = () => {
         </Animated.View>
       </LinearGradient>
     </View>
-    // </ApolloProvider>
   )
 }
 
