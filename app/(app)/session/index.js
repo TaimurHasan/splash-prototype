@@ -11,33 +11,50 @@ import Header from '../../components/Header';
 import { useMutation, useQuery } from '@apollo/client';
 import { QUERY_ME } from '../../utils/queries';
 import { ADD_SESSION, END_SESSION } from '../../utils/mutations';
-import { ActiveContext } from '../../context/ActiveContext';
+import { SessionContext } from '../../context/SessionContext';
+import Loading from '../../components/Loading';
+import { setIsActive } from '../../actions/Session';
 
 const Session = () => {
     const router = useRouter();
-    const { isActive, setActive } = useContext(ActiveContext);
+    const { state, dispatch, isLoading } = useContext(SessionContext);
     const { data: userData } = useQuery(QUERY_ME);
     const [ endSession, { error: endSessionError }] = useMutation(END_SESSION);
-
     const onEnd = async () => {
         try {
             const { data } = await endSession({
                 variables: { username: userData?.me?.username }
             })
             if(data) {
-                setActive(false);
+                dispatch(setIsActive(false));
             }
         } catch (e) {
             console.log(e);
         }
+        // router.push('/session')
     };
 
+    const openStart = () => {
+        // router.push('/');
+        router.push('./session/Start');
+    }
+
+    if(state.isLoading) {
+        return (
+          <View 
+            className='h-full bg-black flex justify-center items-center'
+            style={{ alignItems: 'center' }}
+          >
+            <Loading />
+          </View>
+        )
+    };
     return (
         <>
             <StatusBar style='light'/>
             <Header headerText='Session' showBack={false}/>
             <View className='bg-black flex items-center' style={{height: hp(100)}}>
-                {!isActive &&
+                {!state.isActive &&
                     <View class="flex items-center">
                         <AppText class='text-white text-base mt-20'>No active session</AppText>
                     </View>
@@ -45,14 +62,14 @@ const Session = () => {
                 <View className="absolute mx-auto" style={styles.buttonView}>
                     <TouchableOpacity
                         style={{height: 53 , width: 360 , borderRadius: '5px'}}
-                        className="flex bg-splash-greenbtn items-center justify-center mx-auto mb-10"
-                        onPress={() => isActive ? onEnd() : router.push('/session/Start')}
+                        className={`flex ${state.isActive ? 'bg-splash-redbtn' : 'bg-splash-greenbtn' } items-center justify-center mx-auto mb-10`}
+                        onPress={() => state?.isActive ? onEnd() : openStart()}
                     >
                         <AppText 
                             class='text-black text-base'
                             bold={true}
                         >
-                            {isActive === true ? 'End Session' : 'Start Session'}
+                            {state.isActive === true ? 'End Session' : 'Start Session'}
                         </AppText>
                     </TouchableOpacity>
                 </View>

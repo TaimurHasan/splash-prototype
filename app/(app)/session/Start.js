@@ -11,11 +11,12 @@ import Header from '../../components/Header';
 import { useMutation, useQuery } from '@apollo/client';
 import { QUERY_ME } from '../../utils/queries';
 import { ADD_SESSION, END_SESSION } from '../../utils/mutations';
-import { ActiveContext } from '../../context/ActiveContext';
+import { SessionContext } from '../../context/SessionContext';
+import { setIsActive } from '../../actions/Session';
 
 const Start = () => {
     const router = useRouter();
-    const { isActive, setActive  } = useContext(ActiveContext);
+    const { dispatch } = useContext(SessionContext);
     const { data: userData } = useQuery(QUERY_ME);
     const [ addSession, { error }] = useMutation(ADD_SESSION);
     const [ endSession, { error: endSessionError }] = useMutation(END_SESSION);
@@ -55,7 +56,7 @@ const Start = () => {
                 variables: { username: userData?.me?.username }
             })
             if(data) {
-                setActive(true);
+                dispatch(setIsActive(true));
             }
         } catch (e) {
             console.log(e);

@@ -1,33 +1,42 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { createContext, useEffect, useState } from "react";
+import { authReducer } from "../reducers/AuthReducer.js";
+import { logInUser, logoutUser, setIsLoading } from "../actions/Auth/index.js";
 
-export const AuthContext = createContext();
+export const AuthContext = createContext({
+    dispatch: () => {},
+    state: {
+        userToken: '',
+        isLoading: false,
+    }
+});
 
 export const AuthProvider = ({ children }) => {
-    const [isLoading, setIsLoading] = useState(true);
-    const [userToken, setUserToken] = useState(null);
+    const [state, dispatch] = React.useReducer(authReducer, {
+        userToken: '',
+        isLoading: false,
+    });
 
     const login = async (token) => {
-        setIsLoading(true);
-        setUserToken(token);
+        dispatch(setIsLoading(true));
+        dispatch(logInUser(token));
         await AsyncStorage.setItem('userToken', token);
-        setTimeout(() => setIsLoading(false), 1000);
-        // setIsLoading(false);
+        setTimeout(() => dispatch(setIsLoading(false)), 1000);
     }
 
     const logout = () => {
-        setIsLoading(true);
-        setUserToken(null);
+        dispatch(setIsLoading(true));
+        dispatch(logoutUser());
         AsyncStorage.removeItem('userToken');
-        setIsLoading(false);
+        dispatch(setIsLoading(false));
     }
 
     const isLoggedIn = async () => {
         try {    
-            setIsLoading(true);
+            dispatch(setIsLoading(true));
             let userToken = await AsyncStorage.getItem('userToken');
-            setUserToken(userToken);
-            setIsLoading(false);
+            dispatch(logInUser(userToken));
+            dispatch(setIsLoading(false));
         } catch(e) {
             console.log(e);
         }
@@ -37,8 +46,10 @@ export const AuthProvider = ({ children }) => {
         isLoggedIn();
     }, []);
 
+    const value = { state, dispatch, login, logout };
+
     return (
-        <AuthContext.Provider value={{login, logout, isLoading, userToken}}>
+        <AuthContext.Provider value={value}>
             {children}
         </AuthContext.Provider>
     )

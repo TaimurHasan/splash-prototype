@@ -41,8 +41,10 @@ const login = () => {
             const { data } = await loginUser({
               variables: { ...formState }
             });
-            router.push('/');
-            login(data.login.token);
+            if(data) {
+                router.replace('/');
+                login(data.login.token);
+            }
         } catch (e) {
             console.error(e);
         }

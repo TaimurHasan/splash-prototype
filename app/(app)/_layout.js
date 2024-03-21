@@ -1,15 +1,14 @@
-import { Redirect, Stack, Tabs } from 'expo-router';
-
+import { Redirect, Tabs } from 'expo-router';
 import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
-import { ActivityIndicator, Text, View } from 'react-native';
+import { View } from 'react-native';
 import Loading from '../components/Loading';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 export default function AppLayout() {
-  const { userToken, isLoading } = useContext(AuthContext);
+  const { state } = useContext(AuthContext);
 
-  if(isLoading) {
+  if(state.isLoading) {
     return (
       <View 
         className='h-full bg-black flex justify-center items-center'
@@ -20,7 +19,7 @@ export default function AppLayout() {
     )
   }
 
-  if (!userToken) {
+  if (!state.userToken) {
     return <Redirect href="/hero" />;
   }
 
@@ -31,8 +30,6 @@ export default function AppLayout() {
             tabBarStyle: {
               backgroundColor: '#1c1c1e',
               borderTopColor: 'transparent',
-              // height: hp(10),
-              // paddingBottom: 10,
             },
             tabBarLabelStyle: {
               marginBottom: hp(0.5)

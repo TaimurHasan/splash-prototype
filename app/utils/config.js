@@ -3,7 +3,7 @@ export const animationConfig = {
     config: {
         stiffness: 1000,
         damping: 500,
-        mass: 7,
+        mass: 4,
         overshootClamping: true,
     }
 };

@@ -11,7 +11,7 @@ const home = () => {
     const { logout } = useContext(AuthContext);
     const performLogout = () => {
         logout();
-        router.push('/hero', {disabledAnimation: true});
+        router.replace('/hero', {disabledAnimation: true});
     };
     return (
         <SafeAreaView className='bg-black flex justify-center' style={{height: hp(100)}}>

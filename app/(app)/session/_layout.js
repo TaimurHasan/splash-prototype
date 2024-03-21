@@ -1,14 +1,32 @@
-import { Redirect, Slot, Tabs } from 'expo-router';
-import { Screen, ActivityIndicator, Text, View } from 'react-native';
-
 import { createStackNavigator } from '@react-navigation/stack';
 import Session from '.';
 import Start from './Start';
-import { animationConfig } from '../../utils/constants';
+import { animationConfig } from '../../utils/config';
+import Loading from '../../components/Loading';
+import { useContext, useEffect } from 'react';
+import { SessionContext } from '../../context/SessionContext';
+import { setIsActive } from '../../actions/Session';
+import { useQuery } from '@apollo/client';
+import { QUERY_ME } from '../../utils/queries';
+import { View } from 'react-native';
 
 const Stack = createStackNavigator();
 
 export default function StackLayout() {
+  const query = useQuery(QUERY_ME);
+  const { setActive } = useContext(SessionContext);
+
+  if(query.loading) {
+    return (
+      <View 
+        className='h-full bg-black flex justify-center items-center'
+        style={{ alignItems: 'center' }}
+      >
+        <Loading />
+      </View>
+    )
+  };
+
   return (
     <Stack.Navigator>
         <Stack.Screen name="index" component={Session}
