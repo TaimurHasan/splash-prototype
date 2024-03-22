@@ -5,8 +5,9 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { AuthContext } from '../../context/AuthContext';
+import { StatusBar } from 'expo-status-bar';
 
-const home = () => {
+const Home = () => {
     const router = useRouter();
     const { logout } = useContext(AuthContext);
     const performLogout = () => {
@@ -14,22 +15,25 @@ const home = () => {
         router.replace('/hero', {disabledAnimation: true});
     };
     return (
-        <SafeAreaView className='bg-black flex justify-center' style={{height: hp(100)}}>
-            <TouchableOpacity
-                onPress={() => performLogout()}
-                style={{height: hp(6), width: wp(80), borderRadius: '5px'}}
-                className="flex bg-splash-greenbtn items-center justify-center mx-auto"
-            >
-                <AppText 
-                class='text-black text-base'
+        <>
+            <StatusBar style='light' />
+            <SafeAreaView className='bg-black flex justify-center' style={{height: hp(100)}}>
+                <TouchableOpacity
+                    onPress={() => performLogout()}
+                    style={{height: hp(6), width: wp(80), borderRadius: '5px'}}
+                    className="flex bg-splash-greenbtn items-center justify-center mx-auto"
                 >
-                    Logout
-                </AppText>
-            </TouchableOpacity>
-        </SafeAreaView>
+                    <AppText 
+                    class='text-black text-base'
+                    >
+                        Logout
+                    </AppText>
+                </TouchableOpacity>
+            </SafeAreaView>
+        </>
     )
 }
 
-export default home
+export default Home;
 
 const styles = StyleSheet.create({})
