@@ -13,10 +13,11 @@ import { QUERY_ME } from '../../utils/queries';
 import { ADD_SESSION, END_SESSION } from '../../utils/mutations';
 import { SessionContext } from '../../context/SessionContext';
 import { setIsActive } from '../../actions/Session';
+import { AuthContext } from '../../context/AuthContext';
 
 const Start = () => {
     const router = useRouter();
-    const { dispatch } = useContext(SessionContext);
+    const { dispatch } = useContext(AuthContext);
     const { data: userData } = useQuery(QUERY_ME);
     const [ addSession, { error }] = useMutation(ADD_SESSION);
     const [ endSession, { error: endSessionError }] = useMutation(END_SESSION);
@@ -61,16 +62,15 @@ const Start = () => {
         } catch (e) {
             console.log(e);
         }
-    };
+    }
 
     return (
         <>
             <StatusBar style='light'/>
-            <Header headerText='Start Session' showBack={true} />
             <View className='bg-black' style={{height: hp(100)}}>
                 <View style={styles.buttonView}>
                     <TouchableOpacity
-                        style={{height: 53 , width: 360 , borderRadius: '5px'}}
+                        style={{height: hp(6.220657) , width: wp(91.6), borderRadius: '5px'}}
                         className="flex bg-splash-greenbtn items-center justify-center mx-auto mb-10"
                         onPress={onStart}
                     >
@@ -90,5 +90,5 @@ const Start = () => {
 export default Start;
 
 const styles = StyleSheet.create({
-    buttonView: { top: hp(70), justifyContent: 'center', alignItems: 'center' }
+    buttonView: { top: hp(72), justifyContent: 'center', alignItems: 'center' }
 })

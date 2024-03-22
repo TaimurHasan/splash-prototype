@@ -2,47 +2,35 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Session from '.';
 import Start from './Start';
 import { animationConfig } from '../../utils/config';
-import Loading from '../../components/Loading';
-import { useContext, useEffect } from 'react';
-import { SessionContext } from '../../context/SessionContext';
-import { setIsActive } from '../../actions/Session';
-import { useQuery } from '@apollo/client';
-import { QUERY_ME } from '../../utils/queries';
-import { View } from 'react-native';
+import { standardHeaderStyling } from '../../utils/config';
+import { Button, Text, TouchableOpacity, View } from 'react-native';
+import { useRouter } from 'expo-router';
+import BackButton from '../../components/BackButton';
 
 const Stack = createStackNavigator();
 
 export default function StackLayout() {
-  const query = useQuery(QUERY_ME);
-  const { setActive } = useContext(SessionContext);
-
-  if(query.loading) {
-    return (
-      <View 
-        className='h-full bg-black flex justify-center items-center'
-        style={{ alignItems: 'center' }}
-      >
-        <Loading />
-      </View>
-    )
-  };
-
+  const router = useRouter();
   return (
     <Stack.Navigator>
         <Stack.Screen name="index" component={Session}
           options={{
-            headerShown: false 
+            title: "Session",
+            // headerShown: false
+            ...standardHeaderStyling
           }}
         />
         <Stack.Screen name="Start" component={Start}
           options={{
+            title: "Start Session",
             gestureDirection: 'vertical',
             transitionSpec: { 
               open: animationConfig,
               close: animationConfig,
             
             },
-            headerShown: false 
+            ...standardHeaderStyling,
+            headerLeft: () => <BackButton />
           }}
         />
     </Stack.Navigator>

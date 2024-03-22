@@ -23,7 +23,6 @@ export const SessionProvider = ({ children }) => {
 
     const setActive = async (state) => {
         setIsLoading(true);
-        console.log(state);
         dispatch(setIsActive(state));
         if(state) {
             await AsyncStorage.setItem('sessionId', 'testId');
@@ -47,14 +46,10 @@ export const SessionProvider = ({ children }) => {
     };
 
     useEffect(() => {
-        isActiveState();
-    }, []);
+        isActiveState()
+    }, [authState]);
 
-    // useEffect(() => {
-    //     setIsLoading(loading);
-    // }, [loading])
-
-    const value = { state, dispatch, setActive, isLoading }
+    const value = { state, dispatch, isLoading }
     return (
         <SessionContext.Provider value={value}>
             {children}

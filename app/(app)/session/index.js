@@ -1,29 +1,26 @@
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import AppText from '../../components/AppText';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { sessionSchema } from '../../../assets/sessionSchema';
 import { socket, subscribeToTimer } from '../../utils/api';
 import { StatusBar } from 'expo-status-bar';
 import Header from '../../components/Header';
-import { useMutation, useQuery } from '@apollo/client';
-import { QUERY_ME } from '../../utils/queries';
-import { ADD_SESSION, END_SESSION } from '../../utils/mutations';
-import { SessionContext } from '../../context/SessionContext';
+import { useMutation } from '@apollo/client';
+import { END_SESSION } from '../../utils/mutations';
 import Loading from '../../components/Loading';
 import { setIsActive } from '../../actions/Session';
+import { AuthContext } from '../../context/AuthContext';
 
 const Session = () => {
     const router = useRouter();
-    const { state, dispatch, isLoading } = useContext(SessionContext);
-    const { data: userData } = useQuery(QUERY_ME);
+    const { state, dispatch } = useContext(AuthContext);
     const [ endSession, { error: endSessionError }] = useMutation(END_SESSION);
     const onEnd = async () => {
         try {
             const { data } = await endSession({
-                variables: { username: userData?.me?.username }
+                variables: { username: 'test' }
             })
             if(data) {
                 dispatch(setIsActive(false));
@@ -49,10 +46,11 @@ const Session = () => {
           </View>
         )
     };
+
     return (
         <>
             <StatusBar style='light'/>
-            <Header headerText='Session' showBack={false}/>
+            {/* <Header headerText='Session' showBack={false}/> */}
             <View className='bg-black flex items-center' style={{height: hp(100)}}>
                 {!state.isActive &&
                     <View class="flex items-center">
@@ -61,7 +59,7 @@ const Session = () => {
                 }
                 <View className="absolute mx-auto" style={styles.buttonView}>
                     <TouchableOpacity
-                        style={{height: 53 , width: 360 , borderRadius: '5px'}}
+                        style={{height: hp(6.220657) , width: wp(91.6) , borderRadius: '5px'}}
                         className={`flex ${state.isActive ? 'bg-splash-redbtn' : 'bg-splash-greenbtn' } items-center justify-center mx-auto mb-10`}
                         onPress={() => state?.isActive ? onEnd() : openStart()}
                     >
@@ -81,5 +79,5 @@ const Session = () => {
 export default Session;
 
 const styles = StyleSheet.create({
-    buttonView: { top: hp(70), left: 0, right: 0, justifyContent: 'center', alignItems: 'center' }
+    buttonView: { top: hp(72), left: 0, right: 0, justifyContent: 'center', alignItems: 'center' }
 })

@@ -1,4 +1,4 @@
-import { LOG_IN_USER, LOG_OUT_USER, SET_IS_LOADING, } from "../actions/Auth/index.js";
+import { LOG_IN_USER, LOG_OUT_USER, SET_IS_ACTIVE, SET_IS_LOADING, } from "../actions/Auth/index.js";
 
 export const authReducer = (state, action) => {
     switch (action.type) {
@@ -18,6 +18,12 @@ export const authReducer = (state, action) => {
             return {
                 ...state,
                 isLoading: action.payload,
+            };
+        }
+        case SET_IS_ACTIVE: {
+            return {
+                ...state,
+                isActive: action.payload,
             };
         }
     }
