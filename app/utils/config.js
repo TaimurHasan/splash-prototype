@@ -25,3 +25,7 @@ export const standardHeaderStyling = {
     },
     headerShadowVisible: false,
 };
+
+export const eNotificationType = {
+    1: 'join',
+}

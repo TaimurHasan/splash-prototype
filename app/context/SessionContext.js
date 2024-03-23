@@ -3,50 +3,29 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import { QUERY_ME } from "../utils/queries";
 import { AuthContext } from "./AuthContext";
 import { sessionReducer } from "../reducers/SessionReducer";
-import { setIsActive } from "../actions/Session";
+import { addPlayerToList } from "../actions/Session";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const SessionContext = createContext({
     dispatch: () => {},
     state: {
-        isActive: false,
+        playersToAdd: [],
     }
 });
 
 export const SessionProvider = ({ children }) => {
+    const { state: authState } = useContext(AuthContext);
     const [state, dispatch] = React.useReducer(sessionReducer, {
-        isActive: false,
+        playersToAdd: [],
     });
 
-    const { state: authState } = useContext(AuthContext);
+    // const { state: authState } = useContext(AuthContext);
     const [isLoading, setIsLoading] = useState(true);
 
-    const setActive = async (state) => {
-        setIsLoading(true);
-        dispatch(setIsActive(state));
-        if(state) {
-            await AsyncStorage.setItem('sessionId', 'testId');
-        } else {
-            await AsyncStorage.removeItem('sessionId');
-        }
-        setIsLoading(false);
-    };
-
-    const isActiveState = async () => {
-        setIsLoading(true);
-        try {
-            if(authState) {
-                const sessionId = await AsyncStorage.getItem('sessionId');
-                dispatch(setIsActive(!!sessionId));
-            };
-        } catch (e) {
-            console.log(e);
-        };
-        setIsLoading(false);
-    };
-
     useEffect(() => {
-        isActiveState()
+        if(authState.userId) {
+            dispatch(addPlayerToList(authState.userId));
+        }
     }, [authState]);
 
     const value = { state, dispatch, isLoading }

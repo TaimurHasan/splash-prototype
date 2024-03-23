@@ -22,7 +22,7 @@ export default function StackLayout() {
         />
         <Stack.Screen name="Start" component={Start}
           options={{
-            title: "Start Session",
+            title: "Add Players",
             gestureDirection: 'vertical',
             transitionSpec: { 
               open: animationConfig,

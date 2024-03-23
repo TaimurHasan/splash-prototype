@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { createContext, useEffect, useState } from "react";
 import { authReducer } from "../reducers/AuthReducer.js";
-import { logInUser, logoutUser, setIsActive, setIsLoading } from "../actions/Auth/index.js";
+import { logInUser, logoutUser, setIsActive, setIsLoading, setUserId } from "../actions/Auth/index.js";
 import { useLazyQuery, useQuery } from "@apollo/client";
 import { QUERY_ME } from "../utils/queries.js";
 
@@ -11,6 +11,7 @@ export const AuthContext = createContext({
         userToken: '',
         isLoading: false,
         isActive: false,
+        userId: '',
     }
 });
 
@@ -60,7 +61,10 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     useEffect(() => {
-        dispatch(setIsActive(!loading && data?.me?.isActive === 'true'));
+        if(!loading && data) {
+            dispatch(setIsActive(data?.me?.isActive === 'true'));
+            dispatch(setUserId(data?.me?._id));
+        }
     }, [data, loading]);
 
     const value = { state, dispatch, login, logout };

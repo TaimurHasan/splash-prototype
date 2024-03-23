@@ -69,4 +69,97 @@ export const activeSessionSchema = [
             totalFgs: '8',
         }
     }
-];  
+];
+
+export const friends = [
+    {
+        username: "tester2",
+        _id: "65fc636c9bf856fb1422d5cd",
+        isActive: "false"
+    },
+    {
+        username: "mo_tayyab",
+        _id: "65fc636c9bf856fb1422d5cc",
+        isActive: "false"
+    },
+    // {
+    //     username: "tester",
+    //     _id: "65f3a21b43e0de61e3d2eaf7",
+    // },
+    // {
+    //     username: "tester",
+    //     _id: "65f3a21b43e0de61e3d2eaf7",
+    // },
+    // {
+    //     username: "tester",
+    //     _id: "65f3a21b43e0de61e3d2eaf7",
+    // },
+    // {
+    //     username: "tester",
+    //     _id: "65f3a21b43e0de61e3d2eaf7",
+    // },
+    // {
+    //     username: "tester",
+    //     _id: "65f3a21b43e0de61e3d2eaf7",
+    // },
+    // {
+    //     username: "tester",
+    //     _id: "65f3a21b43e0de61e3d2eaf7",
+    // },
+    // {
+    //     username: "tester",
+    //     _id: "65f3a21b43e0de61e3d2eaf7",
+    // },
+    // {
+    //     username: "tester",
+    //     _id: "65f3a21b43e0de61e3d2eaf7",
+    // },
+    // {
+    //     username: "tester",
+    //     _id: "65f3a21b43e0de61e3d2eaf7",
+    // },
+    // {
+    //     username: "tester",
+    //     _id: "65f3a21b43e0de61e3d2eaf7",
+    // },
+    // {
+    //     username: "tester",
+    //     _id: "65f3a21b43e0de61e3d2eaf7",
+    // },
+    // {
+    //     username: "tester",
+    //     _id: "65f3a21b43e0de61e3d2eaf7",
+    // },
+    // {
+    //     username: "tester",
+    //     _id: "65f3a21b43e0de61e3d2eaf7",
+    // },
+    // {
+    //     username: "tester",
+    //     _id: "65f3a21b43e0de61e3d2eaf7",
+    // },
+    // {
+    //     username: "tester",
+    //     _id: "65f3a21b43e0de61e3d2eaf7",
+    // },
+    // {
+    //     username: "tester",
+    //     _id: "65f3a21b43e0de61e3d2eaf7",
+    // },
+    // {
+    //     username: "tester",
+    //     _id: "65f3a21b43e0de61e3d2eaf7",
+    // },
+    // {
+    //     username: "tester",
+    //     _id: "65f3a21b43e0de61e3d2eaf7",
+    // },
+    // {
+    //     username: "tester",
+    //     _id: "65f3a21b43e0de61e3d2eaf7",
+    // },
+    // {
+    //     username: "tester",
+    //     _id: "65f3a21b43e0de61e3d2eaf7",
+    // },
+]

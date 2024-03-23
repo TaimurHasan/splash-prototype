@@ -79,5 +79,5 @@ const Session = () => {
 export default Session;
 
 const styles = StyleSheet.create({
-    buttonView: { top: hp(72), left: 0, right: 0, justifyContent: 'center', alignItems: 'center' }
+    buttonView: { position: 'absolute', top: hp(70), left: 0, right: 0, justifyContent: 'center', alignItems: 'center' }
 })
