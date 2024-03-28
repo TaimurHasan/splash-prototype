@@ -1,0 +1,11 @@
+module.exports = `
+    type Notification {
+        _id: ID
+        senderId: User
+        recipientId: User
+        sentAt: String
+        isRead: Boolean
+        isActivated: Boolean
+        type: Int
+    }
+`;

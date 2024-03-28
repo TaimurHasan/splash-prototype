@@ -1,15 +1,27 @@
 const express = require('express');
 require('dotenv').config();
 const bodyParser = require('body-parser');
-const { authMiddleware } = require('./utils/auth');
+const { authMiddleware } = require('../utils/auth');
 const socketio = require('socket.io');
 const { ApolloServer } = require('apollo-server-express');
-const { typeDefs, resolvers } = require('./schemas');
+const { buildFederatedSchema } = require('@apollo/federation');
+
+const db = require('./config/connection');
+const modules = require('../modules');
+const models = require('../models');
 
 const server = new ApolloServer({
-    typeDefs,
-    resolvers,
-    context: authMiddleware
+    schema: buildFederatedSchema([
+        {
+            typeDefs: modules.typeDefs,
+            resolvers: modules.resolvers,
+        }
+    ]),
+    context: async ({ req }) => ({
+        auth: await authMiddleware({ req }),
+        db: models,
+        // const token = authMiddleware(req);
+    })
 })
 
 const app = express();
@@ -20,7 +32,6 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-const db = require('./config/connection');
 const startApolloServer = async (typeDefs, resolvers) => {
     await server.start();
     server.applyMiddleware({ app });
@@ -43,4 +54,4 @@ const startApolloServer = async (typeDefs, resolvers) => {
     })
 };
 
-startApolloServer(typeDefs, resolvers);
+startApolloServer(modules.typeDefs, modules.resolvers);
