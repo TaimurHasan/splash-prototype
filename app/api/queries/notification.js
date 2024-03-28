@@ -1,0 +1,14 @@
+import { gql } from '@apollo/client';
+
+export const QUERY_MY_NOTIFICATIONS = gql`
+  {
+    myNotifications {
+      senderId {
+        _id
+        username
+      }
+      isActivated
+      isRead
+    }
+  }
+`;

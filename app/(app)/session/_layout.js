@@ -2,7 +2,6 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Session from '.';
 import { animationConfig } from '../../utils/config';
 import { standardHeaderStyling } from '../../utils/config';
-import { Button, Text, TouchableOpacity, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import BackButton from '../../components/BackButton';
 import { useContext } from 'react';

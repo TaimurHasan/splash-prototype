@@ -7,10 +7,10 @@ import AppText from './components/AppText'
 import CustomTextInput from './components/CustomTextInput'
 import { emailValidator, pwValidator, validateAll } from './utils/validators'
 import { useMutation } from '@apollo/client';
-import { LOGIN_USER } from './utils/mutations';
 import { AuthContext } from './context/AuthContext'
 import * as Progress from 'react-native-progress';
 import Header from './components/Header'
+import { LOGIN_USER } from './api/mutations/user';
 
 const login = () => {
     const router = useRouter();

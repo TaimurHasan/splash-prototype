@@ -3,8 +3,6 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useRouter } from 'expo-router'
 import { Ionicons } from '@expo/vector-icons';
 import { brandingColors } from '../utils/config';
-import { useQuery } from '@apollo/client';
-import { QUERY_MY_NOTIFICATIONS } from '../utils/queries';
 import { AuthContext } from '../context/AuthContext';
 
 export const NotificationButton = () => {

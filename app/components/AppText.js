@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text } from 'react-native'
 import React from 'react'
 import { useFonts } from 'expo-font';
 import { Manrope_400Regular, Manrope_600SemiBold } from '@expo-google-fonts/manrope';

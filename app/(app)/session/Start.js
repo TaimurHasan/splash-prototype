@@ -9,21 +9,18 @@ import { socket, subscribeToTimer } from '../../utils/api';
 import { StatusBar } from 'expo-status-bar';
 import Header from '../../components/Header';
 import { useMutation, useQuery } from '@apollo/client';
-import { QUERY_ME } from '../../utils/queries';
-import { ADD_SESSION, END_SESSION } from '../../utils/mutations';
 import { SessionContext } from '../../context/SessionContext';
 import { AuthContext } from '../../context/AuthContext';
 import Friend from './sessionComponents/Friend';
 import { AntDesign } from '@expo/vector-icons';
 import { setActiveSessionId, setIsActive } from '../../actions/Auth';
+import { ADD_SESSION } from '../../api/mutations/activeSession';
 
 const Start = () => {
     const router = useRouter();
     const { state, dispatch } = useContext(AuthContext);
     const { state: sessionState } = useContext(SessionContext);
-    const { data: userData } = useQuery(QUERY_ME);
     const [ addSession, { error }] = useMutation(ADD_SESSION);
-    const [ endSession, { error: endSessionError }] = useMutation(END_SESSION);
     const [searchList, setSearchList] = useState(friends);
     const [searchInput, setSearchInput] = useState('');
 

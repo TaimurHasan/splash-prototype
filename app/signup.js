@@ -9,9 +9,9 @@ import AppText from './components/AppText'
 import CustomTextInput from './components/CustomTextInput'
 import { emailValidator, pwValidator, validateAll } from './utils/validators'
 import { useMutation } from '@apollo/client';
-import { ADD_USER } from './utils/mutations';
 import { AuthContext } from './context/AuthContext'
 import Header from './components/Header'
+import { ADD_USER } from './api/mutations/user'
 
 const signup = () => {
     const router = useRouter();

@@ -1,9 +1,7 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React, { useContext, useState } from 'react'
+import { StyleSheet, View } from 'react-native'
+import React, { useContext } from 'react'
 import AppText from '../../../components/AppText';
-import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { brandingColors } from '../../../utils/config';
-import Checkbox from 'expo-checkbox';
 import AppCheckbox from '../../../components/AppCheckbox';
 import { SessionContext } from '../../../context/SessionContext';
 import { addPlayerToList, setPlayersToAdd } from '../../../actions/Session';

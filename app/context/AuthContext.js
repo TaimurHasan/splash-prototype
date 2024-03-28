@@ -3,7 +3,7 @@ import React, { createContext, useEffect, useState } from "react";
 import { authReducer } from "../reducers/AuthReducer.js";
 import { logInUser, logoutUser, setActiveSessionId, setIsActive, setIsLoading, setUserId } from "../actions/Auth/index.js";
 import { useLazyQuery, useQuery } from "@apollo/client";
-import { QUERY_ME } from "../utils/queries.js";
+import { QUERY_ME } from "../api/queries/user.js";
 
 export const AuthContext = createContext({
     dispatch: () => {},
