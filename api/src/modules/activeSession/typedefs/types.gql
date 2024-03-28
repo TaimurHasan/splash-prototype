@@ -1,0 +1,8 @@
+module.exports = `
+    type ActiveSession {
+        _id: ID
+        startedBy: String
+        startedAt: String
+        players: [User]
+    }
+`;

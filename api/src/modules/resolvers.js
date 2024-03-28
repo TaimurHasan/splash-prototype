@@ -5,9 +5,9 @@ const ObjectId = require('mongoose').Types.ObjectId;
 
 const resolvers = {
     Query: {
-        me: async (parent, args, context) => {
-            if(context.user) {
-                const userData = await User.findOne({ _id: context.user._id })
+        me: async (parent, args, { auth, db }) => {
+            if(auth.user) {
+                const userData = await db.User.findOne({ _id: auth.user._id })
                     .select('-__v -password')
                     // .populate({
                     //     path: 'notifications',

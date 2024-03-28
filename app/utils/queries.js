@@ -58,16 +58,6 @@ export const QUERY_ME = gql`
       email
       isActive
       activeSessionId
-      notifications {
-        _id
-        type
-        sentBy {
-          _id
-          username
-        }
-        isRead,
-        isActivated,
-      }
     }
   }
 `;
