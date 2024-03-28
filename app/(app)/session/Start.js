@@ -12,10 +12,10 @@ import { useMutation, useQuery } from '@apollo/client';
 import { QUERY_ME } from '../../utils/queries';
 import { ADD_SESSION, END_SESSION } from '../../utils/mutations';
 import { SessionContext } from '../../context/SessionContext';
-import { setIsActive } from '../../actions/Session';
 import { AuthContext } from '../../context/AuthContext';
 import Friend from './sessionComponents/Friend';
 import { AntDesign } from '@expo/vector-icons';
+import { setActiveSessionId, setIsActive } from '../../actions/Auth';
 
 const Start = () => {
     const router = useRouter();
@@ -27,16 +27,16 @@ const Start = () => {
     const [searchList, setSearchList] = useState(friends);
     const [searchInput, setSearchInput] = useState('');
 
-    // if(state.isLoading) {
-    //     return (
-    //       <View 
-    //         className='h-full bg-black flex justify-center items-center'
-    //         style={{ alignItems: 'center' }}
-    //       >
-    //         <Loading />
-    //       </View>
-    //     )
-    // };
+    if(state.isLoading) {
+        return (
+          <View 
+            className='h-full bg-black flex justify-center items-center'
+            style={{ alignItems: 'center' }}
+          >
+            <Loading />
+          </View>
+        )
+    };
 
     // useEffect(() => {
         
@@ -72,11 +72,12 @@ const Start = () => {
     // }, [])
     const onStart = async () => {
         try {
-            const { data } = await addSession({
-                variables: { username: userData?.me?.username }
+            const { data, errors } = await addSession({
+                variables: { players: sessionState.playersToAdd }
             })
             if(data) {
                 dispatch(setIsActive(true));
+                dispatch(setActiveSessionId(data.addSession._id));
             }
         } catch (e) {
             console.log(e);
@@ -100,7 +101,7 @@ const Start = () => {
                                 style={{width: wp(80), color: '#FFFFFF', fontSize: 16}}
                                 autoCapitalize='none'
                                 autoCorrect={false}
-                                placeholder={'Search...'}
+                                placeholder={'Search Players'}
                                 placeholderTextColor="#686868" 
                                 value={searchInput}
                                 onChangeText={handleValueChange}
@@ -126,7 +127,7 @@ const Start = () => {
                             class='text-black text-base'
                             bold={true}
                         >
-                            Continue
+                            Continue { sessionState?.playersToAdd?.length === 0 ? '(Solo)' : `(${sessionState?.playersToAdd?.length} player${sessionState?.playersToAdd?.length !== 1 ? 's' : ''} added)`}
                         </AppText>
                     </TouchableOpacity>
                 </View>

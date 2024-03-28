@@ -22,11 +22,11 @@ export const SessionProvider = ({ children }) => {
     // const { state: authState } = useContext(AuthContext);
     const [isLoading, setIsLoading] = useState(true);
 
-    useEffect(() => {
-        if(authState.userId) {
-            dispatch(addPlayerToList(authState.userId));
-        }
-    }, [authState]);
+    // useEffect(() => {
+    //     if(authState.userId) {
+    //         dispatch(addPlayerToList(authState.userId));
+    //     }
+    // }, [authState]);
 
     const value = { state, dispatch, isLoading }
     return (

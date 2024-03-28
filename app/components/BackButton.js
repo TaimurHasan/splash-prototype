@@ -3,11 +3,22 @@ import React from 'react'
 import { useRouter } from 'expo-router'
 import BackBtnSvg from '../../assets/icons/back.svg';
 
-const BackButton = () => {
+const BackButton = (props) => {
+    const {
+        backFunction,
+    } = props;
     const router = useRouter();
+
+    const handleBack = () => {
+        router.back()
+        if(backFunction) {
+            backFunction();
+        }
+    };
+
     return (
         <TouchableOpacity
-            onPress={() => router.back()}
+            onPress={() => handleBack()}
             className="pl-6 absolute"
             style={{zIndex: 1}}
         >

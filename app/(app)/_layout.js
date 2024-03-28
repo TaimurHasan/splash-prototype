@@ -10,8 +10,7 @@ import { brandingColors } from '../utils/config';
 
 export default function AppLayout() {
   const { state } = useContext(AuthContext);
-
-  if(state.isLoading) {
+  if(state?.isLoading) {
     return (
       <View 
         className='h-full bg-black flex justify-center items-center'
