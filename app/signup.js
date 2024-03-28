@@ -9,13 +9,13 @@ import AppText from './components/AppText'
 import CustomTextInput from './components/CustomTextInput'
 import { emailValidator, pwValidator, validateAll } from './utils/validators'
 import { useMutation } from '@apollo/client';
-import { AuthContext } from './context/AuthContext'
+import { UserContext } from './context/UserContext'
 import Header from './components/Header'
 import { ADD_USER } from './api/mutations/user'
 
 const signup = () => {
     const router = useRouter();
-    const { login } = useContext(AuthContext);
+    const { login } = useContext(UserContext);
     const insets = useSafeAreaInsets();
     const [formState, setFormState] = useState({ email: '', password: '', username: ''});
     const [formStateError, setFormStateError] = useState(false);

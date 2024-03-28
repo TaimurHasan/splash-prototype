@@ -10,7 +10,7 @@ import { StatusBar } from 'expo-status-bar';
 import Header from '../../components/Header';
 import { useMutation, useQuery } from '@apollo/client';
 import { SessionContext } from '../../context/SessionContext';
-import { AuthContext } from '../../context/AuthContext';
+import { UserContext } from '../../context/UserContext';
 import Friend from './sessionComponents/Friend';
 import { AntDesign } from '@expo/vector-icons';
 import { setActiveSessionId, setIsActive } from '../../actions/Auth';
@@ -18,7 +18,7 @@ import { ADD_SESSION } from '../../api/mutations/activeSession';
 
 const Start = () => {
     const router = useRouter();
-    const { state, dispatch } = useContext(AuthContext);
+    const { state, dispatch } = useContext(UserContext);
     const { state: sessionState } = useContext(SessionContext);
     const [ addSession, { error }] = useMutation(ADD_SESSION);
     const [searchList, setSearchList] = useState(friends);

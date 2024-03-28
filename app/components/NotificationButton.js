@@ -3,11 +3,11 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useRouter } from 'expo-router'
 import { Ionicons } from '@expo/vector-icons';
 import { brandingColors } from '../utils/config';
-import { AuthContext } from '../context/AuthContext';
+import { UserContext } from '../context/UserContext';
 
 export const NotificationButton = () => {
     const router = useRouter();
-    const { state } = useContext(AuthContext);
+    const { state } = useContext(UserContext);
     const [hasUnread, setHasUnread] = useState(false);
 
     useEffect(() => {

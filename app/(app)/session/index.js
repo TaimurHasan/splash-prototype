@@ -7,14 +7,14 @@ import { StatusBar } from 'expo-status-bar';
 import { useLazyQuery, useMutation } from '@apollo/client';
 import Loading from '../../components/Loading';
 import { setActiveSessionId, setIsActive } from '../../actions/Auth';
-import { AuthContext } from '../../context/AuthContext';
+import { UserContext } from '../../context/UserContext';
 import { SessionContext } from '../../context/SessionContext';
 import { QUERY_ACTIVE_SESSION } from '../../api/queries/activeSession';
 import { END_SESSION } from '../../api/mutations/activeSession';
 
 const Session = () => {
     const router = useRouter();
-    const { state, dispatch } = useContext(AuthContext);
+    const { state, dispatch } = useContext(UserContext);
     const { dispatch: sessionDispatch } = useContext(SessionContext);
     const [loadActiveSession, { data, loading }] = useLazyQuery(QUERY_ACTIVE_SESSION, {
         variables: { id: state.activeSessionId },

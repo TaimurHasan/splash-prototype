@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import AppText from '../../components/AppText';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { useRouter } from 'expo-router';
-import { AuthContext } from '../../context/AuthContext';
+import { UserContext } from '../../context/UserContext';
 import { StatusBar } from 'expo-status-bar';
 import { brandingColors } from '../../utils/config';
 import { useLazyQuery } from '@apollo/client';
@@ -13,7 +13,7 @@ import { QUERY_MY_NOTIFICATIONS } from '../../api/queries/notification';
 const Home = () => {
     const router = useRouter();
     const [isRefreshing, setIsRefreshing] = useState(false);
-    const { dispatch, logout } = useContext(AuthContext);
+    const { dispatch, logout } = useContext(UserContext);
 
     const [loadNotifications, { data, loading }] = useLazyQuery(QUERY_MY_NOTIFICATIONS);
 
