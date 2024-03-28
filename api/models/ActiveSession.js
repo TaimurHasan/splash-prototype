@@ -29,7 +29,7 @@ const activeSessionSchema = new Schema(
                 ref: 'User',
             }
         ],
-        sessionDetails: [sessionDetailsSchema]
+        sessionDetails: sessionDetailsSchema,
     },
     {
       toJSON: {

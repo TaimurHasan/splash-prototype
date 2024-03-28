@@ -1,25 +1,46 @@
-import { StyleSheet, TouchableOpacity, View } from 'react-native'
+import { Keyboard, ScrollView, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import AppText from '../../components/AppText';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
-import { sessionSchema } from '../../../assets/sessionSchema';
+import { friends, sessionSchema } from '../../../assets/sessionSchema';
 import { socket, subscribeToTimer } from '../../utils/api';
 import { StatusBar } from 'expo-status-bar';
 import Header from '../../components/Header';
 import { useMutation, useQuery } from '@apollo/client';
 import { QUERY_ME } from '../../utils/queries';
 import { ADD_SESSION, END_SESSION } from '../../utils/mutations';
-import { ActiveContext } from '../../context/ActiveContext';
+import { SessionContext } from '../../context/SessionContext';
+import { AuthContext } from '../../context/AuthContext';
+import Friend from './sessionComponents/Friend';
+import { AntDesign } from '@expo/vector-icons';
+import { setActiveSessionId, setIsActive } from '../../actions/Auth';
 
 const Start = () => {
     const router = useRouter();
-    const { isActive, setActive  } = useContext(ActiveContext);
+    const { state, dispatch } = useContext(AuthContext);
+    const { state: sessionState } = useContext(SessionContext);
     const { data: userData } = useQuery(QUERY_ME);
     const [ addSession, { error }] = useMutation(ADD_SESSION);
     const [ endSession, { error: endSessionError }] = useMutation(END_SESSION);
+    const [searchList, setSearchList] = useState(friends);
+    const [searchInput, setSearchInput] = useState('');
 
+    if(state.isLoading) {
+        return (
+          <View 
+            className='h-full bg-black flex justify-center items-center'
+            style={{ alignItems: 'center' }}
+          >
+            <Loading />
+          </View>
+        )
+    };
+
+    // useEffect(() => {
+        
+    // }, [authState])
     // const startTime = (new Date() - new Date(sessionSchema[0].startedAt))/(1000);
     // const [timer, setTimer] = useState(0);
 
@@ -51,33 +72,62 @@ const Start = () => {
     // }, [])
     const onStart = async () => {
         try {
-            const { data } = await addSession({
-                variables: { username: userData?.me?.username }
+            const { data, errors } = await addSession({
+                variables: { players: sessionState.playersToAdd }
             })
             if(data) {
-                setActive(true);
+                dispatch(setIsActive(true));
+                dispatch(setActiveSessionId(data.addSession._id));
             }
         } catch (e) {
             console.log(e);
         }
+    }
+
+    const handleValueChange = (value) => {
+        setSearchInput(value);
+        let newList = [...friends].filter(({ username }) => username.toLowerCase().includes(value));
+        setSearchList(newList);
     };
 
     return (
         <>
             <StatusBar style='light'/>
-            <Header headerText='Start Session' showBack={true} />
-            <View className='bg-black' style={{height: hp(100)}}>
-                <View style={styles.buttonView}>
+            <View className='flex-1 bg-black' style={{height: hp(100)}}>
+                        <View className="mx-auto bg-splash-gray mt-5 flex-row items-center justify-between" style={{ height: hp(4), width: wp(91.6), borderRadius: '5px' }}>
+                            <AntDesign name="search1" size={20} color="gray" style={{marginLeft: 10}} />
+                            <TextInput
+                                type='text'
+                                style={{width: wp(80), color: '#FFFFFF', fontSize: 16}}
+                                autoCapitalize='none'
+                                autoCorrect={false}
+                                placeholder={'Search Players'}
+                                placeholderTextColor="#686868" 
+                                value={searchInput}
+                                onChangeText={handleValueChange}
+                                onBlur={Keyboard.dismiss}
+                            />
+                        </View>
+                <View className='flex-1' style={{ marginBottom: hp(8.7)}}>
+                    <ScrollView className="mx-auto my-4 flex" style={{ width: wp(91.6), borderRadius: '5px' }}>
+                        {searchList.map((friend) => (
+                            <View key={friend._id}>
+                                <Friend friend={friend}/>
+                            </View>
+                        ))}
+                    </ScrollView>
+                </View>
+                <View className="absolute mx-auto" style={styles.buttonView}>
                     <TouchableOpacity
-                        style={{height: 53 , width: 360 , borderRadius: '5px'}}
-                        className="flex bg-splash-greenbtn items-center justify-center mx-auto mb-10"
+                        style={{height: hp(6.220657) , width: wp(91.6), borderRadius: '5px'}}
+                        className="flex bg-splash-greenbtn items-center justify-center items-center mx-auto mb-10"
                         onPress={onStart}
                     >
                         <AppText 
                             class='text-black text-base'
                             bold={true}
                         >
-                            Continue
+                            Continue { sessionState?.playersToAdd?.length === 0 ? '(Solo)' : `(${sessionState?.playersToAdd?.length} player${sessionState?.playersToAdd?.length !== 1 ? 's' : ''} added)`}
                         </AppText>
                     </TouchableOpacity>
                 </View>
@@ -89,5 +139,5 @@ const Start = () => {
 export default Start;
 
 const styles = StyleSheet.create({
-    buttonView: { top: hp(70), justifyContent: 'center', alignItems: 'center' }
+    buttonView: { top: hp(70), left: 0, right: 0, justifyContent: 'center', alignItems: 'center' }
 })

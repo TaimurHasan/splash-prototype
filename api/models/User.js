@@ -23,7 +23,10 @@ const userSchema = new Schema(
         isActive: {
             type: Boolean,
             default: false,
-        }
+        },
+        activeSessionId: {
+            type: String,
+        },
     },
     {
       toJSON: {

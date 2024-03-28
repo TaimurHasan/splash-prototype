@@ -1,6 +1,6 @@
 import React, { createContext } from "react";
 import { AuthProvider } from "./AuthContext";
-import { ActiveProvider } from "./ActiveContext";
+import { SessionProvider } from "./SessionContext";
 
 export const AppContext = createContext();
 
@@ -8,9 +8,9 @@ export const AppProvider = ({ children }) => {
     return (
         <AppContext.Provider value={{}}>
             <AuthProvider>
-                <ActiveProvider>
+                <SessionProvider>
                     {children}
-                </ActiveProvider>
+                </SessionProvider>
             </AuthProvider>
         </AppContext.Provider>
     )

@@ -7,6 +7,7 @@ module.exports = {
         'splash-gray': '#1c1c1e',
         'splash-green': '#87E4B7',
         'splash-greenbtn': '#67FFB6',
+        'splash-redbtn': '#FF7967',
       },
     },
   },

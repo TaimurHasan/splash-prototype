@@ -1,22 +1,12 @@
 import { gql } from '@apollo/client';
 
-export const QUERY_THOUGHTS = gql`
-    query thoughts($username: String, $isAaron: Boolean!) {
-        thoughts(username: $username, isAaron: $isAaron) {
-            _id
-            thoughtText
-            createdAt
-            username
-            aaronOnly
-            reactionCount
-            reactions {
-                _id
-                createdAt
-                username
-                reactionBody
-            }
-        }
+export const QUERY_ACTIVE_SESSION = gql`
+  query activeSession($id: ID!) {
+    activeSession(id: $id) {
+      _id
+      startedAt
     }
+  }
 `;
 
 export const QUERY_THOUGHT = gql`
@@ -67,6 +57,30 @@ export const QUERY_ME = gql`
       username
       email
       isActive
+      activeSessionId
+      notifications {
+        _id
+        type
+        sentBy {
+          _id
+          username
+        }
+        isRead,
+        isActivated,
+      }
+    }
+  }
+`;
+
+export const QUERY_MY_NOTIFICATIONS = gql`
+  {
+    myNotifications {
+      senderId {
+        _id
+        username
+      }
+      isActivated
+      isRead
     }
   }
 `;

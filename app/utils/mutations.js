@@ -38,16 +38,16 @@ export const ADD_FRIEND = gql`
 `
 
 export const ADD_SESSION = gql`
-  mutation addSession($username: String!) {
-    addSession(username: $username) {
+  mutation addSession($players: [ID]!) {
+    addSession(players: $players) {
       _id
     }
   }
 `;
 
 export const END_SESSION = gql`
-  mutation endSession($username: String!) {
-    endSession(username: $username) {
+  mutation endSession($sessionId: String!) {
+    endSession(sessionId: $sessionId) {
       _id
     }
   }

@@ -42,7 +42,7 @@ const signup = () => {
             const { data } = await addUser({
               variables: { ...formState }
             });
-            router.push('/');
+            router.replace('/');
             login(data.addUser.token);
           } catch (e) {
             console.error(e);
