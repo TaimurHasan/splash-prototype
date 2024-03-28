@@ -2,16 +2,16 @@ const { Schema, model } = require('mongoose');
 
 const notificationSchema = new Schema(
     {
-        username: {
-            type: String,
-            required: true,
-        },
         sentAt: {
             type: Date,
             default: Date.now,
             // get: timestamp => dateFormat(timestamp)
         },
-        sentBy: {
+        senderId: {
+            type: Schema.Types.ObjectId,
+            ref: 'User',
+        },
+        recipientId: {
             type: Schema.Types.ObjectId,
             ref: 'User',
         },
@@ -19,6 +19,14 @@ const notificationSchema = new Schema(
             type: Number,
             required: true,
         },
+        isRead: {
+            type: Boolean,
+            default: false,
+        },
+        isActivated: {
+            type: Boolean,
+            default: false,
+        }
     },
     {
       toJSON: {
