@@ -1,5 +1,3 @@
-import { Redirect, Tabs } from 'expo-router';
-import { Screen, ActivityIndicator, Text, View } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { animationConfig, standardHeaderStyling } from '../../utils/config';
 import Home from '.';
@@ -10,6 +8,10 @@ import BackButton from '../../components/BackButton';
 const Stack = createStackNavigator();
 
 export default function StackLayout() {
+  const handleNotificationsRead = () => {
+    // TODO: add functionality to change isRead status for notifications
+  }
+
   return (
     <Stack.Navigator>
         <Stack.Screen name="index" component={Home}
@@ -30,7 +32,7 @@ export default function StackLayout() {
             
             },
             ...standardHeaderStyling,
-            headerLeft: () => <BackButton />
+            headerLeft: () => <BackButton backFunction={() => handleNotificationsRead()}/>
           }}
         />
     </Stack.Navigator>

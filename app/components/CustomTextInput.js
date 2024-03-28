@@ -1,5 +1,5 @@
-import { StyleSheet, Text, TextInput, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { StyleSheet, TextInput, View } from 'react-native'
+import React, { useState } from 'react'
 import AppText from './AppText';
 
 const CustomTextInput = (props) => {

@@ -1,7 +1,6 @@
 const { signToken } = require("../../../../utils/auth");
 
 module.exports = async (parent, { email, password }, { db }) => {
-    console.log(email);
     const user = await db.User.findOne({ email });
 
     if(!user) {

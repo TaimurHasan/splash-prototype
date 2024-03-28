@@ -7,14 +7,14 @@ import AppText from './components/AppText'
 import CustomTextInput from './components/CustomTextInput'
 import { emailValidator, pwValidator, validateAll } from './utils/validators'
 import { useMutation } from '@apollo/client';
-import { LOGIN_USER } from './utils/mutations';
-import { AuthContext } from './context/AuthContext'
+import { UserContext } from './context/UserContext'
 import * as Progress from 'react-native-progress';
 import Header from './components/Header'
+import { LOGIN_USER } from './api/mutations/user';
 
 const login = () => {
     const router = useRouter();
-    const { login } = useContext(AuthContext);
+    const { login } = useContext(UserContext);
     const [formState, setFormState] = useState({ email: '', password: '' });
     const [formStateError, setFormStateError] = useState(false);
     const [isLoginLoading, setIsLoginLoading] = useState(false);

@@ -3,25 +3,20 @@ import React, { useContext, useEffect } from 'react'
 import AppText from '../../components/AppText';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { useRouter } from 'expo-router';
-import { sessionSchema } from '../../../assets/sessionSchema';
-import { socket, subscribeToTimer } from '../../utils/api';
 import { StatusBar } from 'expo-status-bar';
-import Header from '../../components/Header';
 import { useLazyQuery, useMutation } from '@apollo/client';
-import { END_SESSION } from '../../utils/mutations';
 import Loading from '../../components/Loading';
 import { setActiveSessionId, setIsActive } from '../../actions/Auth';
-import { AuthContext } from '../../context/AuthContext';
-import { QUERY_ACTIVE_SESSION } from '../../utils/queries';
-import { addPlayerToList } from '../../actions/Session';
+import { UserContext } from '../../context/UserContext';
 import { SessionContext } from '../../context/SessionContext';
+import { QUERY_ACTIVE_SESSION } from '../../api/queries/activeSession';
+import { END_SESSION } from '../../api/mutations/activeSession';
 
 const Session = () => {
     const router = useRouter();
-    const { state, dispatch } = useContext(AuthContext);
+    const { state, dispatch } = useContext(UserContext);
     const { dispatch: sessionDispatch } = useContext(SessionContext);
     const [loadActiveSession, { data, loading }] = useLazyQuery(QUERY_ACTIVE_SESSION, {
-        // fetchPolicy: 'cache-and-network',
         variables: { id: state.activeSessionId },
     });
     const [ endSession, { error: endSessionError }] = useMutation(END_SESSION);
@@ -41,7 +36,6 @@ const Session = () => {
     };
 
     const openStart = () => {
-        // sessionDispatch(addPlayerToList(state.userId));
         router.push('./session/Start');
     }
 
@@ -65,7 +59,6 @@ const Session = () => {
     return (
         <>
             <StatusBar style='light'/>
-            {/* <Header headerText='Session' showBack={false}/> */}
             <View className='bg-black flex items-center' style={{height: hp(100)}}>
                 {!state.isActive &&
                     <View class="flex items-center">

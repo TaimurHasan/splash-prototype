@@ -1,11 +1,11 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { createContext, useEffect, useState } from "react";
-import { authReducer } from "../reducers/AuthReducer.js";
+import { userReducer } from "../reducers/UserReducer.js";
 import { logInUser, logoutUser, setActiveSessionId, setIsActive, setIsLoading, setUserId } from "../actions/Auth/index.js";
 import { useLazyQuery, useQuery } from "@apollo/client";
-import { QUERY_ME } from "../utils/queries.js";
+import { QUERY_ME } from "../api/queries/user.js";
 
-export const AuthContext = createContext({
+export const UserContext = createContext({
     dispatch: () => {},
     state: {
         userToken: '',
@@ -17,8 +17,8 @@ export const AuthContext = createContext({
     }
 });
 
-export const AuthProvider = ({ children }) => {
-    const [state, dispatch] = React.useReducer(authReducer, {
+export const UserProvider = ({ children }) => {
+    const [state, dispatch] = React.useReducer(userReducer, {
         userToken: '',
         isLoading: false,
         isActive: false,
@@ -78,8 +78,8 @@ export const AuthProvider = ({ children }) => {
     const value = { state, dispatch, login, logout };
 
     return (
-        <AuthContext.Provider value={value}>
+        <UserContext.Provider value={value}>
             {children}
-        </AuthContext.Provider>
+        </UserContext.Provider>
     )
 };

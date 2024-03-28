@@ -1,6 +1,6 @@
 import { Redirect, Tabs } from 'expo-router';
 import { useContext } from 'react';
-import { AuthContext } from '../context/AuthContext';
+import { UserContext } from '../context/UserContext';
 import { View } from 'react-native';
 import Loading from '../components/Loading';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
@@ -9,7 +9,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { brandingColors } from '../utils/config';
 
 export default function AppLayout() {
-  const { state } = useContext(AuthContext);
+  const { state } = useContext(UserContext);
   if(state?.isLoading) {
     return (
       <View 
