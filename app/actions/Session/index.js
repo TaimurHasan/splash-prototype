@@ -1,4 +1,4 @@
-import { makeActionCreator } from "../Auth";
+import { makeActionCreator } from "../User";
 
 export const ADD_PLAYER_TO_LIST = 'ADD_PLAYER_TO_LIST';
 export const SET_PLAYERS_TO_ADD = 'SET_PLAYERS_TO_ADD';

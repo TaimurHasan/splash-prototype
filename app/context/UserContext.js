@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { createContext, useEffect, useState } from "react";
 import { userReducer } from "../reducers/UserReducer.js";
-import { logInUser, logoutUser, setActiveSessionId, setIsActive, setIsLoading, setUserId } from "../actions/Auth/index.js";
+import { logInUser, logoutUser, setActiveSessionId, setIsActive, setIsLoading, setUserId } from "../actions/User/index.js";
 import { useLazyQuery, useQuery } from "@apollo/client";
 import { QUERY_ME } from "../api/queries/user.js";
 
@@ -14,6 +14,7 @@ export const UserContext = createContext({
         activeSessionId: '',
         userId: '',
         notifications: [],
+        unreadNotifications: [],
     }
 });
 
@@ -25,6 +26,7 @@ export const UserProvider = ({ children }) => {
         activeSessionId: '',
         userId: '',
         notifications: [],
+        unreadNotifications: [],
     });
 
     const [loadAuth, { client, data, loading }] = useLazyQuery(QUERY_ME, {

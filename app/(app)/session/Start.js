@@ -13,7 +13,7 @@ import { SessionContext } from '../../context/SessionContext';
 import { UserContext } from '../../context/UserContext';
 import Friend from './sessionComponents/Friend';
 import { AntDesign } from '@expo/vector-icons';
-import { setActiveSessionId, setIsActive } from '../../actions/Auth';
+import { setActiveSessionId, setIsActive } from '../../actions/User';
 import { ADD_SESSION } from '../../api/mutations/activeSession';
 
 const Start = () => {

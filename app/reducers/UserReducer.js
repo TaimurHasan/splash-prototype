@@ -1,4 +1,4 @@
-import { LOG_IN_USER, LOG_OUT_USER, SET_ACTIVE_SESSION_ID, SET_IS_ACTIVE, SET_IS_LOADING, SET_NOTIFICATIONS, SET_USER_ID, } from "../actions/Auth/index.js";
+import { LOG_IN_USER, LOG_OUT_USER, SET_ACTIVE_SESSION_ID, SET_IS_ACTIVE, SET_IS_LOADING, SET_NOTIFICATIONS, SET_UNREAD_NOTIFICATIONS, SET_USER_ID, } from "../actions/User/index.js";
 
 export const userReducer = (state, action) => {
     switch (action.type) {
@@ -42,6 +42,12 @@ export const userReducer = (state, action) => {
             return {
                 ...state,
                 notifications: action.payload,
+            }
+        }
+        case SET_UNREAD_NOTIFICATIONS: {
+            return {
+                ...state,
+                unreadNotifications: action.payload,
             }
         }
     }

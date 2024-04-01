@@ -7,15 +7,17 @@ import { UserContext } from '../../context/UserContext';
 import { StatusBar } from 'expo-status-bar';
 import { brandingColors } from '../../utils/config';
 import { useLazyQuery } from '@apollo/client';
-import { setNotifications } from '../../actions/Auth';
+import { setNotifications, setUnreadNotifications } from '../../actions/User';
 import { QUERY_MY_NOTIFICATIONS } from '../../api/queries/notification';
 
 const Home = () => {
     const router = useRouter();
     const [isRefreshing, setIsRefreshing] = useState(false);
-    const { dispatch, logout } = useContext(UserContext);
+    const { state, dispatch, logout } = useContext(UserContext);
 
-    const [loadNotifications, { data, loading }] = useLazyQuery(QUERY_MY_NOTIFICATIONS);
+    const [loadNotifications, { data, loading }] = useLazyQuery(QUERY_MY_NOTIFICATIONS, {
+        fetchPolicy: 'cache-and-network',
+    });
 
     const performLogout = () => {
         logout();
@@ -32,6 +34,11 @@ const Home = () => {
 
     useEffect(() => {
         dispatch(setNotifications(data?.myNotifications));
+        data?.myNotifications?.forEach(({ _id, isRead }) => {
+            if(!isRead && !state?.unreadNotifications?.includes(_id)) {
+                dispatch(setUnreadNotifications([...state.unreadNotifications, _id]));
+            }
+        });
     }, [data, loading]);
 
     return (
