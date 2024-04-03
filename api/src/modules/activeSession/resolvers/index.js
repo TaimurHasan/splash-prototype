@@ -2,6 +2,7 @@ const activeSession = require('./queries/activeSession');
 
 const addSession = require('./mutations/addSession');
 const endSession = require('./mutations/endSession');
+const joinSession = require('./mutations/joinSession');
 
 module.exports = {
   Query: {
@@ -10,5 +11,6 @@ module.exports = {
   Mutation: {
     addSession,
     endSession,
+    joinSession,
   },
 };

@@ -1,7 +1,7 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import { animationConfig, standardHeaderStyling } from '../../utils/config';
 import Home from '.';
-import Notifications from './Notifications';
+import Notifications from './notifications';
 import { NotificationButton } from '../../components/NotificationButton';
 import BackButton from '../../components/BackButton';
 import { useMutation } from '@apollo/client';
@@ -38,7 +38,7 @@ export default function StackLayout() {
             headerRight: () => <NotificationButton />
           }}
         />
-        <Stack.Screen name="Notifications" component={Notifications}
+        <Stack.Screen name="notifications/index" component={Notifications}
           options={{
             title: "Notifications",
             gestureDirection: 'vertical',

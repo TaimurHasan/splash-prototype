@@ -15,3 +15,11 @@ export const END_SESSION = gql`
     }
   }
 `;
+
+export const JOIN_SESSION = gql`
+  mutation joinSession($sessionId: String!) {
+    joinSession(sessionId: $sessionId) {
+      _id
+    }
+  }
+`;

@@ -14,7 +14,7 @@ export const NotificationButton = () => {
     return (
         <>
         <TouchableOpacity
-            onPress={() => router.push('/home/Notifications')}
+            onPress={() => router.push('/home/notifications')}
             className="pr-6 absolute"
             style={{zIndex: 1}}
         >
