@@ -26,6 +26,9 @@ const notificationSchema = new Schema(
         isActivated: {
             type: Boolean,
             default: false,
+        },
+        sessionId: {
+            type: Schema.Types.ObjectId,
         }
     },
     {

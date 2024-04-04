@@ -7,5 +7,6 @@ module.exports = `
         isRead: Boolean
         isActivated: Boolean
         type: Int
+        sessionId: ID
     }
 `;

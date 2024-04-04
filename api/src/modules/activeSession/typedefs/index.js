@@ -8,5 +8,6 @@ module.exports = [`
     extend type Mutation {
         addSession(players: [ID]!): ActiveSession
         endSession(sessionId: String!): ActiveSession
+        joinSession(sessionId: String!): ActiveSession
     }
 `, types];

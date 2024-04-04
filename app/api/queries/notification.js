@@ -10,6 +10,7 @@ export const QUERY_MY_NOTIFICATIONS = gql`
         }
         isActivated
         isRead
+        sessionId
     }
   }
 `;

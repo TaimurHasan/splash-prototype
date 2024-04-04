@@ -12,7 +12,12 @@ module.exports = async(parent, args, { auth, db }) => {
 
         if(args.players.length > 0) {
             args.players.forEach(async id => {
-                await db.Notification.create({ recipientId: id, senderId: auth.user._id, type: 1 });
+                await db.Notification.create({ 
+                    recipientId: id, 
+                    senderId: auth.user._id, 
+                    type: 1,
+                    sessionId: session._id,
+                });
             });
         };
         const user = await db.User.findByIdAndUpdate(
