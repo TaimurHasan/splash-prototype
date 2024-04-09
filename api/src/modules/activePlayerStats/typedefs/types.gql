@@ -1,0 +1,13 @@
+module.exports = `
+    type ActivePlayerStats {
+        _id: ID
+        sessionId: ID
+        userId: ID
+        FGS: Int
+        PTS: Int
+        TPM: Int
+        REB: Int
+        BLK: Int
+        STL: Int
+    }
+`;

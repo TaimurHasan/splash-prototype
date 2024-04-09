@@ -1,14 +1,5 @@
 const { Schema, model } = require('mongoose');
 
-const playerStatsSchema = new Schema(
-    {
-        user: {
-            type: Schema.Types.ObjectId,
-            ref: 'User',
-        },
-    }
-)
-
 const sessionDetailsSchema = new Schema(
     {
         totalFgsMade: {
@@ -38,7 +29,12 @@ const activeSessionSchema = new Schema(
                 ref: 'User',
             },
         ],
-        playerStats: [playerStatsSchema],
+        playerStats: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'ActivePlayerStats'
+            }
+        ],
         sessionDetails: sessionDetailsSchema,
     },
     {

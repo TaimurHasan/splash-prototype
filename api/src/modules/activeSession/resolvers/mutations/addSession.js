@@ -1,9 +1,23 @@
+const ObjectId = require('mongoose').Types.ObjectId;
+
 module.exports = async(parent, args, { auth, db }) => {
     if(auth.user) {
+        const commonId = new ObjectId();
+        const player = await db.ActivePlayerStats.create({
+            sessionId: commonId,
+            userId: new ObjectId(auth.user._id),
+        });
+
+        if(!player) {
+            throw new Error('Player not created');
+        };
+
         const session = await db.ActiveSession.create({
+            _id: commonId,
             startedBy: auth.user.username,
             settings: '1',
             players: [auth.user._id],
+            playerStats: [player._id],
         });
 
         if(!session) {

@@ -1,6 +1,7 @@
 module.exports = async(parent, { id }, { auth, db }) => {
     if(auth.user) {
-        const session = await db.ActiveSession.findById(id);
+        const session = await db.ActiveSession.findById(id)
+            .populate('playerStats');
         return session;
     }
 };

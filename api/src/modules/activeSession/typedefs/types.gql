@@ -4,5 +4,6 @@ module.exports = `
         startedBy: String
         startedAt: String
         players: [User]
+        playerStats: [ActivePlayerStats]
     }
 `;
