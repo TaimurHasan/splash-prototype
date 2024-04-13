@@ -6,7 +6,7 @@ const activePlayerStatsSchema = new Schema(
             type: Schema.Types.ObjectId,
             ref: 'ActiveSession',
         },
-        userId: {
+        user: {
             type: Schema.Types.ObjectId,
             ref: 'User',
         },

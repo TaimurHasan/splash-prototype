@@ -5,7 +5,7 @@ module.exports = async(parent, args, { auth, db }) => {
         const commonId = new ObjectId();
         const player = await db.ActivePlayerStats.create({
             sessionId: commonId,
-            userId: new ObjectId(auth.user._id),
+            user: new ObjectId(auth.user._id),
         });
 
         if(!player) {

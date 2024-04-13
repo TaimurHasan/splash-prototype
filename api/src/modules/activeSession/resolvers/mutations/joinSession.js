@@ -4,7 +4,7 @@ module.exports = async(parent, args, { auth, db }) => {
     if(auth.user) {
         const player = await db.ActivePlayerStats.create({
             sessionId: new ObjectId(args.sessionId),
-            userId: new ObjectId(auth.user._id),
+            user: new ObjectId(auth.user._id),
         });
 
         if(!player) {

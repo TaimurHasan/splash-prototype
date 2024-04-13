@@ -1,8 +1,8 @@
 module.exports = `
     type ActivePlayerStats {
         _id: ID
-        sessionId: ID
-        userId: ID
+        sessionId: ActiveSession
+        user: User
         FGS: Int
         PTS: Int
         TPM: Int
