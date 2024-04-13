@@ -18,7 +18,7 @@ export default function StackLayout() {
     <Stack.Navigator>
         <Stack.Screen name="index" component={Session}
           options={{
-            title: "Session",
+            title: "Active Session",
             // headerShown: false
             ...standardHeaderStyling
           }}

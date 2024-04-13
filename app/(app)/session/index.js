@@ -11,6 +11,7 @@ import { UserContext } from '../../context/UserContext';
 import { SessionContext } from '../../context/SessionContext';
 import { QUERY_ACTIVE_SESSION } from '../../api/queries/activeSession';
 import { END_SESSION } from '../../api/mutations/activeSession';
+import ActiveSession from './activeSession';
 
 const Session = () => {
     const router = useRouter();
@@ -66,9 +67,7 @@ const Session = () => {
                     </View>
                 }
                 {state.isActive && !loading &&
-                    <View class="flex items-center">
-                        <AppText class='text-white text-base mt-20'>{data?.activeSession?.startedAt}</AppText>
-                    </View>
+                    <ActiveSession />
                 }
                 <View className="absolute mx-auto" style={styles.buttonView}>
                     <TouchableOpacity

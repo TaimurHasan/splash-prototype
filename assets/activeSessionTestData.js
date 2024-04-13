@@ -9,11 +9,12 @@ export default {
             user: {
               username: "tester"
             },
-            FGS: 0,
-            PTS: 0,
-            TPM: 0,
+            FGA: 5,
+            FGM: 3,
+            PTS: 8,
+            TPM: 1,
             BLK: 0,
-            REB: 0,
+            REB: 2,
             STL: 0
           },
           {
@@ -21,8 +22,9 @@ export default {
             user: {
               username: "tester2"
             },
-            FGS: 0,
-            PTS: 0,
+            FGA: 4,
+            FGM: 1,
+            PTS: 2,
             TPM: 0,
             BLK: 0,
             REB: 0,
