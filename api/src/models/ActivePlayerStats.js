@@ -10,7 +10,11 @@ const activePlayerStatsSchema = new Schema(
             type: Schema.Types.ObjectId,
             ref: 'User',
         },
-        FGS: {
+        FGA: {
+            type: Number,
+            default: 0,
+        },
+        FGM: {
             type: Number,
             default: 0,
         },

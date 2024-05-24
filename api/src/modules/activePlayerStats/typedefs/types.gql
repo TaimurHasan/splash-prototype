@@ -3,7 +3,8 @@ module.exports = `
         _id: ID
         sessionId: ActiveSession
         user: User
-        FGS: Int
+        FGA: Int
+        FGM: Int
         PTS: Int
         TPM: Int
         REB: Int

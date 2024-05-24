@@ -12,14 +12,13 @@ import { SessionContext } from '../../context/SessionContext';
 import { QUERY_ACTIVE_SESSION } from '../../api/queries/activeSession';
 import { END_SESSION } from '../../api/mutations/activeSession';
 import ActiveSession from './activeSession';
+import { setActivePlayerStats, setTimeElapsed } from '../../actions/Session';
+import { calcDifferenceInSeconds } from '../../utils/helper';
 
 const Session = () => {
     const router = useRouter();
     const { state, dispatch } = useContext(UserContext);
     const { dispatch: sessionDispatch } = useContext(SessionContext);
-    const [loadActiveSession, { data, loading }] = useLazyQuery(QUERY_ACTIVE_SESSION, {
-        variables: { id: state.activeSessionId },
-    });
     const [ endSession, { error: endSessionError }] = useMutation(END_SESSION);
     const onEnd = async () => {
         try {
@@ -29,6 +28,8 @@ const Session = () => {
             if(data) {
                 dispatch(setIsActive(false));
                 dispatch(setActiveSessionId(null));
+                sessionDispatch(setTimeElapsed(0));
+                sessionDispatch(setActivePlayerStats([]));
             }
         } catch (e) {
             console.log(e);
@@ -51,12 +52,6 @@ const Session = () => {
         )
     };
 
-    useEffect(() => {
-        if(state.activeSessionId) {
-            loadActiveSession();
-        }
-    }, [state]);
-
     return (
         <>
             <StatusBar style='light'/>
@@ -66,7 +61,7 @@ const Session = () => {
                         <AppText class='text-white text-base mt-20'>No active session</AppText>
                     </View>
                 }
-                {state.isActive && !loading &&
+                {state.isActive &&
                     <ActiveSession />
                 }
                 <View className="absolute mx-auto" style={styles.buttonView}>
