@@ -5,6 +5,20 @@ export const QUERY_ACTIVE_SESSION = gql`
     activeSession(id: $id) {
       _id
       startedAt
+      playerStats {
+        _id
+        user {
+          _id
+          username 
+        }
+        FGM
+        FGA
+        PTS
+        TPM
+        BLK
+        REB
+        STL
+      }
     }
   }
 `;
